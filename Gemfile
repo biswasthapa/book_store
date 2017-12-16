@@ -16,7 +16,10 @@ gem 'coffee-rails', '~> 4.1.0'
 
 
 # Templating
-gem 'slim'
+gem 'slim-rails'
+
+# User authentication
+gem 'devise'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -39,6 +42,19 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
+  # debugger
+  gem 'pry-rails'
+  gem 'pry-nav'
+  gem 'pry-theme'
+  gem 'pry-stack_explorer'
+  # test framework
+  gem 'rspec-rails', '~> 3.0'
+  # fixtures
+  gem 'factory_girl_rails'
+
+  # generate fake data
+  gem 'faker'
 end
 
 group :development do
