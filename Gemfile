@@ -18,8 +18,14 @@ gem 'coffee-rails', '~> 4.1.0'
 # Templating
 gem 'slim-rails'
 
+#Foundation
+gem 'foundation-rails'
+
 # User authentication
 gem 'devise'
+
+# file uploads
+gem "paperclip", '~> 5.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
