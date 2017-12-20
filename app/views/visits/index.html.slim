@@ -1,0 +1,20 @@
+h1 Listing visitors
+
+table
+  thead
+    tr
+      th IP
+      th Referrer
+      th Landing Page
+      th Browser
+      th Visit Time
+
+  tbody
+    - @visits.each do |visit|
+      tr
+        td = visit.ip
+        td = visit.referrer
+        td = visit.landing_page
+        td = visit.browser
+        td = visit.started_at
+

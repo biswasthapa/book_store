@@ -1,31 +1,79 @@
-h1 Listing books
+- if user_signed_in?
+  h1 Listing books
 
-table
-  thead
-    tr
-      th Title
-      th Description
-      th Unit price
-      th Author
-      th Category
-      th Publisher
-      th
-      th
-      th
-
-  tbody
-    - @books.each do |book|
+  table
+    thead
       tr
-        td = book.title
-        td = book.description
-        td = book.unit_price
-        td = book.author
-        td = book.category
-        td = book.publisher
-        td = link_to 'Show', book
-        td = link_to 'Edit', edit_book_path(book)
-        td = link_to 'Destroy', book, data: { confirm: 'Are you sure?' }, method: :delete
+        th Title
+        th Description
+        th Unit price
+        th Author
+        th Category
+        th Publisher
+        th Image
+        th
+        th
+        th
 
-br
+    tbody
+      - @books.each do |book|
+        tr
+          td = book.title
+          td = book.description
+          td = book.unit_price
+          td = book.author.try(:name)
+          td = book.category.try(:name)
+          td = book.publisher.try(:name)
+          td = image_tag book.book_image.url
+          td = link_to 'Show', book
+          td = link_to 'Edit', edit_book_path(book)
+          td = link_to 'Destroy', book, data: { confirm: 'Are you sure?' }, method: :delete
 
-= link_to 'New Book', new_book_path
+  br
+
+  = link_to 'New Book', new_book_path
+- else
+  .grid-container
+    .row
+      .columns
+        .grid-x.top-information-space
+          .small-6.medium-6.large-4.cell
+            .search-result-text
+              | We found&nbsp;
+              span.books-count
+                = @books.count
+              | &nbsp;titles sorted in most relevant order
+          .small-6.medium-6.large-4.cell
+            .books-per-page.search-result-text
+              | See&nbsp;&nbsp;
+              = select_tag "books_per_page_select", options_for_select(books_per_page_select), class: "books-per-page-select"
+              | &nbsp;&nbsp;results per page
+          .small-6.medium-6.large-4.cell.books-pagination
+            = will_paginate @books, renderer: FoundationPagination::Rails
+    .grid-x.grid-padding-x.small-up-1.medium-up-2.large-up-4.books-data
+      - @books.each do |book|
+        .cell
+          .card
+            = image_tag book.book_image
+            .card-section
+              .book-title-text
+                = book.title
+              .book-author-text
+                | by&nbsp;
+                = book.author.name
+              br/
+              - if book.description.length > 200
+                p = truncate(book.description, length: 200) {link_to "more details", book_path(book.id), class: 'more-details'}
+              - else
+                p
+                  = book.description
+                  | &nbsp;&nbsp;
+                  = link_to "more details", book_path(book.id), class: 'more-details'
+              .float-left
+                .book-title-text
+                  | $&nbsp;
+                  = book.unit_price
+              .float-right.cart-image
+                 = image_tag image_url('add_to_cart_small.png')
+    .float-right.books-pagination
+      = will_paginate @books, renderer: FoundationPagination::Rails

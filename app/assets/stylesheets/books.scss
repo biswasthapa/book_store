@@ -1,3 +1,76 @@
 // Place all the styles related to the Books controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.book-title-text{
+  font-size: 16px;
+  font-weight: bold;
+  color: #FEC43C;
+}
+
+.top-information-space{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.search-result-text{
+  font-weight: bold;
+  color: #FEC43C;
+}
+
+.books-per-page {
+  margin-top: -12px;
+}
+
+.pagination-next a, .pagination-previous a{
+  color: #FEC43C !important;
+}
+
+.books-per-page-select {
+  width: 60px;
+}
+
+.cart-image{
+  margin-top: -10px;
+}
+
+.cart-area {
+  margin-top: 50px;
+  width: 150px;
+  height: 150px;
+}
+
+.cart-body {
+  background: #F7F7F7;
+}
+
+.show-books-grid {
+  width: 1500px;
+}
+
+.unit-price-text {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #FEC43C !important;
+}
+
+.cart-image-show-page {
+  text-align: center;
+  margin-top: 20px;
+}
+
+a.more-details, a.more-details:visited, a.more-details:link {
+  color: #179F99 !important;
+}
+
+a.more-details:hover {
+  text-decoration: underline;
+  background: transparent;
+}
+
+a.back-button {
+  color: white !important;
+}
+

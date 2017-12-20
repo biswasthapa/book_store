@@ -1,10 +1,28 @@
 class BooksController < ApplicationController
+  include WillPaginate::ViewHelpers
   before_action :set_book, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_user!, only: [:index,:show]
 
   # GET /books
   # GET /books.json
   def index
+    per_page = params[:per_page] || 10
+
     @books = Book.all
+
+    unless current_user
+      @books = @books.where(category: Category.find(params[:category])) if params[:category].present? && params[:category] != 'All'
+
+      @books = @books.where(author: Author.find(params[:author])) if params[:author].present? && params[:author] != 'All'
+
+      @books = @books.search(params[:search]) if params[:search].present?
+
+      @books = @books.paginate(:page => params[:page], :per_page => per_page)
+    end
+    respond_to do |format|
+      format.html{}
+      format.json{render json: {books: @books, pagination: will_paginate(@books, renderer: FoundationPagination::Rails).try(:gsub, ".json","")}}
+    end
   end
 
   # GET /books/1
@@ -69,6 +87,6 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:title, :description, :unit_price, :author_id, :category_id, :publisher_id)
+      params.require(:book).permit(:title, :description, :unit_price, :author_id, :category_id, :publisher_id, :book_image)
     end
 end

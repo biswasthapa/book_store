@@ -17,13 +17,13 @@
     = f.text_field :unit_price
   .field
     = f.label :author
-    = f.text_field :author
+    = f.select :author, Author.all.pluck(:name, :id)
   .field
     = f.label :category
-    = f.text_field :category
+    = f.select :category, Category.all.pluck(:name, :id)
   .field
     = f.label :publisher
-    = f.text_field :publisher
+    = f.select :publisher, Publisher.all.pluck(:name, :id)
   .field
     = f.label :book_image
     = f.file_field :book_image
