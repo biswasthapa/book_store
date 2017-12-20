@@ -1,0 +1,61 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+
+    title == content_for?(:title) ? yield(:title) : "Untitled"
+
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tag
+
+  body
+    = render 'toastr_rails/flash'
+    .top-bar.banner
+      .top-bar-left
+        .header-text
+          a.header-link href=root_path
+            | bookstore
+            span.white-header .com
+    .top-bar.menu-bar
+      .top-bar-left
+        ul.menu.left-menu-item
+          - unless user_signed_in?
+            - if controller_name == 'books' && action_name == 'index'
+              li
+                = text_field_tag "search_books", "", placeholder: "Search", type: "search"
+              li
+                = select_tag "category_select", options_for_select(category_select)
+              li
+                = select_tag "author_select", options_for_select(author_select)
+              li
+                = link_to "#", class: "search-books-button"
+                  i.fa.fa-2x.fa-search aria-hidden="true"
+          - else
+            li.menu-item
+              = link_to  "Books", books_path
+            li.menu-item
+              = link_to  "Authors", authors_path
+            li.menu-item
+              = link_to "Publishers", publishers_path
+            li.menu-item
+              = link_to  "Categories", categories_path
+            li.menu-item
+              = link_to  "Page Visits", visits_path
+      .top-bar-right
+        ul.menu
+          - if user_signed_in?
+            li.menu-item
+              | Logged in as <strong>  #{current_user.email} </strong>
+            li.menu-item
+              = link_to 'Edit Profile', edit_user_registration_path, class: 'navbar-link'
+            li.menu-item
+              = link_to "Logout", destroy_user_session_path, method: :delete, class: 'navbar-link'
+          - else
+            li.menu-item
+              = link_to "Sign up", new_user_registration_path, class: 'navbar-link'
+            li.menu-item
+              = link_to "Login", new_user_session_path, class: 'navbar-link'
+
+    == yield

@@ -12,6 +12,43 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
+ *= require toastr_rails
  *= require foundation_and_overrides
-
  */
+
+.banner {
+  background-image: url("bookstore_banner.png");
+  background-size: cover;
+  height: 50px;
+}
+
+.header-text {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.left-menu-item {
+  margin-left: 60px;
+}
+
+.menu-item, .menu-item a, .white-header {
+  color: white;
+}
+
+.fa-search {
+  color: white;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: #FEC43C;
+  box-shadow: 0 0 4pt 4pt #FEC43C;
+}
+
+a.search-books-button:hover, a.header-link:hover {
+  background: transparent;
+}
+
+#toast-container{
+  top: 5px !important;
+  right: 5px !important;
+}
