@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
+  if getParameterByName('per_page')
+    $('#books_per_page_select').val getParameterByName('per_page')
+
   $('#books_per_page_select').on 'change', ->
     getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(),  $('#author_select').val(), $('#search_books').val())
 
@@ -24,7 +27,6 @@ $(document).on 'turbolinks:load', ->
       success: (response) ->
         $('.books-pagination').html(response.pagination)
         $('.books-count').html(response.books.length)
-        $('#books_per_page_select').val($('#books_per_page_select').val())
         $('.books-data').empty()
         booksList = ""
         $.each response.books, (index, book) ->
