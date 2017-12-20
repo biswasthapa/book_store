@@ -12,9 +12,31 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require ahoy
+//= require toastr_rails
 //= require foundation
+//= require ahoy
 //= require turbolinks
 //= require_tree .
 
-$(function(){ $(document).foundation(); });
+$(document).foundation();
+
+var showToast = function(flash){
+  for(var i = 0; i < flash.length; i++ ){
+    var msg = flash[i];
+    var type = {
+      notice: 'success',
+      alert: 'error',
+      warning: 'warning',
+      info: 'info'
+    };
+    var options = {
+      notice: {},
+      alert: { "timeOut": "0", "extendedTimeOut": "0" },
+      warning: { "timeOut": "0", "extendedTimeOut": "0" },
+      info: {}
+    };
+    if(toastr[type[msg[0]]]) {
+      toastr[type[msg[0]]](msg[1], '', options[msg[0]]);
+    }
+  }
+};
