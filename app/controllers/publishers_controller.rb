@@ -54,10 +54,19 @@ class PublishersController < ApplicationController
   # DELETE /publishers/1
   # DELETE /publishers/1.json
   def destroy
-    @publisher.destroy
-    respond_to do |format|
-      format.html { redirect_to publishers_url, notice: 'Publisher was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      if @publisher.destroy
+        respond_to do |format|
+          format.html { redirect_to publishers_url, notice: 'Publisher was successfully destroyed.' }
+          format.json { head :no_content }
+        end
+      else
+        flash[:alert] = nice_error @publisher.errors.full_messages, 'Error deleting publisher.'
+        redirect_to :back
+      end
+    rescue Exception => e
+      flash[:alert] = nice_error [e.message], "Error deleting publisher."
+      redirect_to :back
     end
   end
 

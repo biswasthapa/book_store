@@ -72,10 +72,19 @@ class BooksController < ApplicationController
   # DELETE /books/1
   # DELETE /books/1.json
   def destroy
-    @book.destroy
-    respond_to do |format|
-      format.html { redirect_to books_url, notice: 'Book was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      if @book.destroy
+        respond_to do |format|
+          format.html { redirect_to books_url, notice: 'Book was successfully destroyed.' }
+          format.json { head :no_content }
+        end
+      else
+        flash[:alert] = nice_error @book.errors.full_messages, "Error deleting book"
+        redirect_to :back
+      end
+    rescue Exception => e
+      flash[:alert] = nice_error [e.message], "Error deleting book."
+      redirect_to :back
     end
   end
 

@@ -54,10 +54,19 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1
   # DELETE /categories/1.json
   def destroy
-    @category.destroy
-    respond_to do |format|
-      format.html { redirect_to categories_url, notice: 'Category was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      if @category.destroy
+        respond_to do |format|
+          format.html { redirect_to categories_url, notice: 'Category was successfully destroyed.' }
+          format.json { head :no_content }
+        end
+      else
+        flash[:alert] = nice_error @category.errors.full_messages, 'Error deleting category.'
+        redirect_to :back
+      end
+    rescue Exception => e
+      flash[:alert] = nice_error [e.message], "Error deleting category."
+      redirect_to :back
     end
   end
 

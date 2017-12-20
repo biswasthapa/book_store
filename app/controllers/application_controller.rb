@@ -4,4 +4,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authenticate_user!
+
+  def nice_error(errors, title = '')
+    error_msg = "<strong>#{title}</strong>"
+    error_msg += errors.inject('<ul>') { |memo, value| memo + "<li>#{value}</li>" } + '</ul>'
+    error_msg.html_safe
+  end
 end
