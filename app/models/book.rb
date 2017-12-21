@@ -26,7 +26,7 @@ class Book < ActiveRecord::Base
 
   def self.search(search)
     if search
-      where('title LIKE ?', "%#{search}%")
+      where('lower(title) LIKE ?', "%#{search.downcase}%")
     else
       where(nil)
     end

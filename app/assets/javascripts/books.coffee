@@ -6,18 +6,21 @@ $(document).on 'turbolinks:load', ->
   if getParameterByName('per_page')
     $('#books_per_page_select').val getParameterByName('per_page')
 
+  if getParameterByName('search')
+    $('#search_books').val(getParameterByName('search'))
+
   $('#books_per_page_select').on 'change', ->
-    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(),  $('#author_select').val(), $('#search_books').val())
+    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(),  $('#author_select').val(), getSearchBookValue)
 
   $('#category_select').on 'change', ->
-    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(),  $('#author_select').val(), $('#search_books').val())
+    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(),  $('#author_select').val(), getSearchBookValue)
 
   $('#author_select').on 'change', ->
-    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(), $('#author_select').val(), $('#search_books').val())
+    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(), $('#author_select').val(), getSearchBookValue)
 
   $(".search-books-button").on 'click',(evt) ->
     evt.preventDefault();
-    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(), $('#author_select').val(), $('#search_books').val())
+    getBooksPerPage($('#books_per_page_select').val(), $('#category_select').val(), $('#author_select').val(), getSearchBookValue)
 
   getBooksPerPage = (per_page, category, author, search) ->
     $.ajax
@@ -26,7 +29,7 @@ $(document).on 'turbolinks:load', ->
       url: '/books.json'
       success: (response) ->
         $('.books-pagination').html(response.pagination)
-        $('.books-count').html(response.books.length)
+        $('.books-count').html(response.total_books)
         $('.books-data').empty()
         booksList = ""
         $.each response.books, (index, book) ->
@@ -39,3 +42,10 @@ $(document).on 'turbolinks:load', ->
                       "</div></div></div></div>"
 
         $(".books-data").html(booksList)
+        $('#search_books').html(getParameterByName('search'))
+
+  getSearchBookValue = ->
+    if getParameterByName('search')
+      getParameterByName('search')
+    else
+      $('#search_books').val()

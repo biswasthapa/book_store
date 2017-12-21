@@ -17,11 +17,13 @@ class BooksController < ApplicationController
 
       @books = @books.search(params[:search]) if params[:search].present?
 
+      @total_books = @books.count
+
       @books = @books.paginate(:page => params[:page], :per_page => per_page)
     end
     respond_to do |format|
       format.html{}
-      format.json{render json: {books: @books, pagination: will_paginate(@books, renderer: FoundationPagination::Rails).try(:gsub, ".json","")}}
+      format.json{render json: {books: @books, pagination: will_paginate(@books, renderer: FoundationPagination::Rails).try(:gsub, ".json",""), total_books: @total_books}}
     end
   end
 
