@@ -11,9 +11,9 @@ class BooksController < ApplicationController
     @books = Book.all
 
     unless current_user
-      @books = @books.where(category: Category.find(params[:category])) if params[:category].present? && params[:category] != 'All'
+      @books = @books.where(category_id: params[:category]) if params[:category].present? && params[:category] != 'All'
 
-      @books = @books.where(author: Author.find(params[:author])) if params[:author].present? && params[:author] != 'All'
+      @books = @books.where(author_id: params[:author]) if params[:author].present? && params[:author] != 'All'
 
       @books = @books.search(params[:search]) if params[:search].present?
 
